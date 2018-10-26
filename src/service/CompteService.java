@@ -117,24 +117,25 @@ public class CompteService extends AbstractFacade<Compte> {
             }
         }
     }
-    public List<Compte> searchByCriteria(String rib,Double soldeMax,Double soldeMin){
-        String query=constructQuery(rib, soldeMin, soldeMax);
+
+    public List<Compte> searchByCriteria(String rib, Double soldeMax, Double soldeMin) {
+        String query = constructQuery(rib, soldeMax, soldeMin);
         return getEntityManager().createQuery(query).getResultList();
     }
-    
-    private String constructQuery(String rib,Double soldeMin,Double soldeMax){
-        String query="SELECT c FROM Compte WHERE 1=1";
-                if(rib!=null && !rib.equals("")){
-                    query +=" AND c.rib ='"+rib+"'";
-                    return query;
-                }
-                if(soldeMax !=null && !soldeMax.equals("")){
-                    query +=" AND c.solde <'"+soldeMax+"'";
-                }
-                if(soldeMin!=null && !soldeMin.equals("")){
-                    query +=" AND c.solde >'"+soldeMin+"'";
-                }
-                return query;
-        
+
+    private String constructQuery(String rib, Double soldeMax, Double soldeMin) {
+        String query = "SELECT c FROM Compte WHERE 1=1";
+        if (rib != null && !rib.equals("")) {
+            query += " AND c.rib ='" + rib + "'";
+            return query;
+        }
+        if (soldeMax != null && !soldeMax.equals("")) {
+            query += " AND c.solde <='" + soldeMax + "'";
+        }
+        if (soldeMin != null && !soldeMin.equals("")) {
+            query += " AND c.solde >='" + soldeMin + "'";
+        }
+        return query;
+
     }
 }
